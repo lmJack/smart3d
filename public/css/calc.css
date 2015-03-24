@@ -1,0 +1,35 @@
+body {
+}
+
+#calc {
+    background: url(../img/calc_bg.png) no-repeat bottom center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    padding-bottom:100px;
+    color: white;
+}
+
+#dropzone {
+    padding:50px;
+    height:300px;
+    background:white;
+    border-radius: 10px;
+    border: 2px dashed #aaa;
+}
+
+#canvas {
+    height:200px;
+    background:white;
+    border-radius: 10px;
+}
+
+#dropzone {
+    color: black;
+}
+
+#canvas canvas {
+    height:200px;
+    width:100%
+}

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<title>Удобный сервис 3d печати с доставкой</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Loading Bootstrap -->
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+	<link href="css/index.css" rel="stylesheet">
+	<link href="css/calc.css" rel="stylesheet">
+
+	<link rel="shortcut icon" href="img/favicon.ico">
+
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+	<!--[if lt IE 9]>
+	  <script src="js/vendor/html5shiv.js"></script>
+	  <script src="js/vendor/respond.min.js"></script>
+	<![endif]-->
+  </head>
+	<body>
+		<div class="modal fade" id="cost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Расчет стоимости печати</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-6">
+								<div id="props">
+									
+								</div>
+							</div>
+							<div class="col-md-6" id="vis">
+							</div>
+						</div>
+						<div id="order"></div>
+						<div id="total">
+		  				
+						</div>
+					</div>
+					<div class="modal-footer">
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	<%- include nav.ejs %>
+
+	<header class="intro">
+		<div class="intro-body">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+						<h1 class="brand-heading">Производство 2.0</h1>
+						<p class="intro-text">Используйте любой из современных 3д принтеров в своих целях с помощью нашего сервиса. <br>
+						Моделируем и воплощаем удивительные продукты из <br> качественных материалов с помощью 3д печати.
+						<br> Полный цикл от идеи до продукта <br>в 2 раза быстрее, на 25% точнее, более экономично. </p>
+						<a class="btn btn-primary">Рассчитать стоимость</a> <br>
+						<a href="#about" class="btn btn-circle page-scroll">
+							<i class="glyphicon glyphicon-hand-down"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- /.container -->
+	
+	<section id="calc" class="container-fluid content-section text-center">
+		<div class="container">
+		<div class="row">
+		  <h1 class="brand-heading">Онлайн расчет стоимости 3d печати</h1>
+			<div class="col-md-6">
+			  <h2 class="text-center">Ограничения</h2>
+			  <hr>
+			  <p>Максимальный размер файла: 50мб</p>
+			  <hr>
+			  <p>Формат файла: .stl</p>
+			  <hr>
+			  Гарантия сохранности вашей модели. Предварительный расчет происходит локально, без отправки на сервер.
+			</div>
+			<div class="col-md-6">
+			  <h2 class="text-center">Загрузить файл</h2>
+			  <div id="dropzone">
+				<h2>Перетащите в это окно модель для загрузки, или нажмите кнопку:</h2>
+				<button class="btn btn-lg btn-primary" id="addfiles">Загрузить файл</button>
+			  </div>
+			</div>
+		</div>
+		</div>
+	</section>
+	  
+	  <section id="materials" class="container-fluid text-center">
+		<div class="content-section container">
+		<div class="row">
+			<div class="col-md-12">
+				<h2>Материалы, доступные для исполнения заказа</h2>
+				<div class="row">
+				  <% for(var i = 0, lgth = materials.length; i < lgth; i++) {%>
+					<% if ((i%4) === 0) { %> <div class="row"> <% } %>
+						<div class="col-md-3">
+							<div class="thumbnail">
+								<a href="/materials/<%= materials[i].name %>"><img src="<%= materials[i].thumbs[0] %>"></a>
+								<div class="caption">
+									<h4><%= materials[i].name %></h4>
+								</div>
+							</div>
+						</div>
+					<% if ((i%4) === 3) { %> </div> <% } %>
+					<% } %>                 
+				</div>
+			</div>
+		</div>
+		</div>
+	  </section>
+	  
+	  <hr>
+	  
+	  <section id="where" class="container content-section text-center">
+		<div class="row">
+			<div class="col-md-12">
+				<h2>Оборудование, используемое для печати</h2>
+				<div class="row">
+				  <% for(var i = 0, lgth = printers.length; i < lgth; i++) {%>
+						<div class="col-md-3">
+							<div class="thumbnail">
+								<a href="/printers/<%= printers[i].name %>"><img src="<%= printers[i].thumbs[0] %>"></a>
+								<div class="caption">
+									<h4><%= printers[i].name %></h4>
+								</div>
+							</div>
+						</div>
+					<% } %>             
+				</div>
+			</div>
+		</div>
+	  </section>
+	  
+	  <hr>
+	  
+	  <section id="models" class="container content-section text-center">
+		<div class="row">
+			<div class="col-md-12">
+				<h2>Каталог готовых для печати цифровых моделей</h2>
+				<div class="row">
+				  <% for(var i = 0, lgth = things.length; i < lgth; i++) {%>
+					<% if ((i%4) === 0) { %> <div class="row"> <% } %>
+						<div class="col-md-3">
+							<div class="thumbnail">
+								<a href="/models/<%= things[i].id %>"><img class="img-responsive" src="<%= things[i].pics[0] %>"></a>
+							</div>
+						</div>
+						<% if ((i%4) === 3) { %> </div> <% } %>
+					<% } %>                   
+				</div>
+				<br>
+			</div>
+		</div>
+	  </section>
+	
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<span class="copyright">Copyright &copy; ideasolid.ru 2014</span>
+				</div>
+				<div class="col-md-4">
+					<ul class="list-inline social-buttons">
+						<li><a href="#"><i class="fa fa-twitter"></i></a>
+						</li>
+						<li><a href="#"><i class="fa fa-facebook"></i></a>
+						</li>
+						<li><a href="#"><i class="fa fa-linkedin"></i></a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-4">
+					<ul class="list-inline quicklinks">
+						<li><a href="#">Магазин</a>
+						</li>
+						<li><a href="#">Блог</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<!-- jQuery (necessary for Flat UI's JavaScript plugins) -->
+	<script src="js/jquery-1.10.2.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="js/flat-ui.min.js"></script>
+	<script src="js/three.min.js"></script>
+	<script src="js/three.trackballControls.js"></script>
+	<script src="js/three.STLLoader.js"></script>
+	<script src="js/three.canvasRenderer.js"></script>
+	<script src="js/three.projector.js"></script>
+	<script src="js/dropzone.js"></script>
+	<script src="js/index.js"></script>
+  </body>
+</html>
+

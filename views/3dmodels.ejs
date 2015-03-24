@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Скачать 3d модель бесплатно</title>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body style="margin-top:50px">
+        <%- include nav.ejs %>
+        <div class="container">
+            <h1 class="text-center">Скачать 3d модель</h1>
+            <hr>
+            <% for(var i = 0, lgth = thngs.length; i < lgth; i++) {%>
+                <div class="col-md-3">
+                    <div class="thumbnail">
+                        <a href="/models/<%= thngs[i].id %>"><img src="<%= thngs[i].pics[0] %>" class="img-responsive"></a>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <script src="/js/jquery-1.10.2.min.js"></script>
+        <script src="/js/flat-ui.min.js"></script>
+        <script src="/js/3dmodels.js"></script>
+    </body>
+</html>
