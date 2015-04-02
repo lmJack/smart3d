@@ -256,7 +256,7 @@ router.post('/materials/addPic/:id', function(req, res) {
           console.log("file end");
           lwip.open(saveTo, function(err, image){
             if (!err ) {
-              var h = 400, w = image.width()/(image.height()/h);
+              var h = 300, w = image.width()/(image.height()/h);
                 image.resize(w, h, function(err, image) {
                   if (!err) {
                     if (!fs.existsSync("./public/img/" + material.name + "/tmp")) {
@@ -396,7 +396,7 @@ router.post('/printers/addPic/:id', function(req, res) {
           console.log("file end");
           lwip.open(saveTo, function(err, image){
             if (!err ) {
-              var h = 400, w = image.width()/(image.height()/h);
+              var h = 300, w = image.width()/(image.height()/h);
                 image.resize(w, h, function(err, image) {
                   if (!err) {
                     if (!fs.existsSync("./public/img/" + printer.name + "/tmp")) {

@@ -2,21 +2,23 @@ var Order = {
 	positions: [],
 	onUpdate: function() {
 		var html = '<h2 class="text-center">Состав заказа</h2>',
-		fields = ['<div class="row">',
-							'<div class="col-md-5">',
-								'<div class="form-group form-inline text-center">',
-    								'<label for="name">Как Вас зовут?</label>',
+		fields = ['<div class="row text-left">',
+							'<div class="col-md-6 form-inline">',
+								'<div class="form-group">',
+    								'<label for="name"> Как Вас зовут? </label>',
 									'<input id="name" type="text" class="form-control">',
 								'</div>',
 							'</div>',
-							'<div class="col-md-5">',
-								'<div class="form-group text-center form-inline">',
-									'<label for="contact">Email/Телефон</label>',
+							'<div class="col-md-6 form-inline">',
+								'<div class="form-group">',
+									'<label for="contact">Email/Телефон </label>',
 									'<input id="contact" type="text" class="form-control">',
 								'</div>',
 							'</div>',
-							'<div class="col-md-2">',
-								'<div class="form-group text-center form-inline">',
+					'</div>',
+					'<div class="row">',
+							'<div class="col-md-2 col-md-offset-5">',
+								'<div class="form-group form-inline">',
 									'<button type="submit" class="btn btn-primary" id="send">Отправить заказ</button>',
 								'</div>',
 							'</div>',
@@ -24,7 +26,7 @@ var Order = {
 		this.positions.forEach(function(el, ind) {
 			html += '<div class="row"><div class="col-md-4"><p>' + el.material + '</p></div><div class="col-md-4"><p>' + el.count + ' шт.</p></div><div class="col-md-4"><p>' + el.subtotal + ' руб.</p></div></div>';
 		});
-		html += '<div class="row"><div class="col-md-12"><p class="pull-right">Итоговая стоимость заказа: ' + this.total + ' руб.</p></div></div>';
+		html += '<div class="row"><div class="col-md-12"><p class="text-center">Итоговая стоимость заказа: ' + this.total + ' руб.</p></div></div>';
 		html += fields;
 		$('#order').html(html);
 		$('#send').click(function(e) {
@@ -113,8 +115,8 @@ var Calc = {
                 var vol = Number(obj.volume).toPrecision(3);
         		
         		$('#cost').modal('show');
-        		Viewer.init();
-        		Viewer.read(Calc.file);
+        		//Viewer.init();
+        		//Viewer.read(Calc.file);
                 $("#props").append("Объем: " + vol + " куб. см. <hr>");
                 $("#total").append("<h2>Стоимость печати: </h2>");
                 materials.forEach(function(val,ind) {
@@ -306,7 +308,7 @@ var Viewer = {
         	var centerX = 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
        		var centerY = 0.5 * ( geometry.boundingBox.max.y - geometry.boundingBox.min.y );
         	var centerZ = 0.5 * ( geometry.boundingBox.max.z - geometry.boundingBox.min.z );
-        	$("#props").append('<hr> Размер по оси х: ' + Math.ceil(centerX*20)/10 +' мм <br> Размер по оси y: ' + Math.ceil(centerY*20)/10 + ' мм <br> Размер по оси z: ' + Math.ceil(centerZ*20)/10 + ' мм <hr>');
+        	$("#props").append('Размер по оси х: ' + Math.ceil(centerX*20)/10 +' мм <br> Размер по оси y: ' + Math.ceil(centerY*20)/10 + ' мм <br> Размер по оси z: ' + Math.ceil(centerZ*20)/10 + ' мм <hr>');
         	var radius = geometry.boundingSphere.radius;
         	Viewer.camera.position.set( geometry.boundingSphere.radius*7, geometry.boundingSphere.radius*7, geometry.boundingSphere.radius*7 );
         	Viewer.cameraTarget = new THREE.Vector3(centerX,centerY,centerZ);

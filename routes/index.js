@@ -30,6 +30,46 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/materials/:name', function(req, res, next) {
+    Material.findOne({name: req.params.name}, function(err, mtrl) {
+        if (err) {
+            console.log(err);
+            res.end();
+        } else {
+            if (mtrl) {
+                Printer.find({materials: mtrl.name}, function(err, prntrs) {
+                    if (err) {
+                        console.log(err);
+                        res.end();
+                    } else {
+                        res.render('material', {mtrl: mtrl, prntrs: prntrs});    
+                    }
+                });
+            }
+        }
+    });
+});
+
+router.get('/printers/:name', function(req, res, next) {
+    Printer.findOne({name: req.params.name}, function(err, prntr) {
+        if (err) {
+            console.log(err);
+            res.end();
+        } else {
+            if (prntr) {
+                Material.find({name: {$in: prntr.materials}}, function(err, mtrls) {
+                    if (err) {
+                        console.log(err);
+                        res.end();
+                    } else {
+                        res.render('3dprinter', {mtrls: mtrls, prntr: prntr});    
+                    }
+                });
+            }
+        }
+    });
+});
+
 router.get('/models/:id', function(req, res, next) {
     Model3d.findOne({id: req.params.id}, function(err, thng) {
         if (!err && thng) {

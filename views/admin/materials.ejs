@@ -46,6 +46,7 @@
                     <% for(var i = 0, lgth = materials.length; i < lgth; i++) {%>
                         <div class="col-md-3">
                             <div class="thumbnail">
+                                <%= materials[i] %>
                                 <button type="button" class="close" data-id="<%= materials[i]._id %>"><span aria-hidden="true">&times;</span></button>
                                 <img src="<%= materials[i].thumbs[0] %>">
                                 <div class="caption">

@@ -7,7 +7,8 @@
 
 	<!-- Loading Bootstrap -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-
+	
+	<link href="css/hover.min.css" rel="stylesheet">
 	<link href="css/index.css" rel="stylesheet">
 	<link href="css/calc.css" rel="stylesheet">
 
@@ -29,13 +30,13 @@
 					</div>
 					<div class="modal-body">
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div id="props">
 									
 								</div>
 							</div>
-							<div class="col-md-6" id="vis">
-							</div>
+							<!--<div class="col-md-6" id="vis">
+							</div>-->
 						</div>
 						<div id="order"></div>
 						<div id="total">
@@ -74,7 +75,14 @@
 		<div class="container">
 		<div class="row">
 		  <h1 class="brand-heading">Онлайн расчет стоимости 3d печати</h1>
-			<div class="col-md-6">
+			<div class="col-md-8">
+			  <h2 class="text-center">Загрузить файл</h2>
+			  <div id="dropzone">
+				<h2>Перетащите в это окно модель для расчета, или нажмите кнопку:</h2>
+				<button class="btn btn-lg btn-primary" id="addfiles">Загрузить файл</button>
+			  </div>
+			</div>
+			<div class="col-md-4">
 			  <h2 class="text-center">Ограничения</h2>
 			  <hr>
 			  <p>Максимальный размер файла: 50мб</p>
@@ -82,13 +90,6 @@
 			  <p>Формат файла: .stl</p>
 			  <hr>
 			  Гарантия сохранности вашей модели. Предварительный расчет происходит локально, без отправки на сервер.
-			</div>
-			<div class="col-md-6">
-			  <h2 class="text-center">Загрузить файл</h2>
-			  <div id="dropzone">
-				<h2>Перетащите в это окно модель для загрузки, или нажмите кнопку:</h2>
-				<button class="btn btn-lg btn-primary" id="addfiles">Загрузить файл</button>
-			  </div>
 			</div>
 		</div>
 		</div>
@@ -103,7 +104,7 @@
 				  <% for(var i = 0, lgth = materials.length; i < lgth; i++) {%>
 					<% if ((i%4) === 0) { %> <div class="row"> <% } %>
 						<div class="col-md-3">
-							<div class="thumbnail">
+							<div class="thumbnail hvr-float-shadow">
 								<a href="/materials/<%= materials[i].name %>"><img src="<%= materials[i].thumbs[0] %>"></a>
 								<div class="caption">
 									<h4><%= materials[i].name %></h4>
