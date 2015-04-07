@@ -10,9 +10,6 @@ $(document).ready(function() {
             $('#materials').select2({
                 data: names
             });
-            $('#materials').on("change", function(e) { 
-                console.log($('#materials').val());
-            });
         }
     });
     
@@ -47,7 +44,13 @@ $(document).ready(function() {
                 name: $("#name").val(),
                 materials: JSON.stringify($("#materials").val()),
                 desc: $("#desc").val(),
-                
+                dot: $("#dot").val(),
+                layer: $("#layer").val(),
+                vol: JSON.stringify({
+                    h: $("#h").val(),
+                    w: $("#w").val(),
+                    d: $("#d").val()
+                })
             },
             success: function(resp) {
                 printerdz.options.url = "/api/printers/addPic/" + resp;
@@ -62,6 +65,11 @@ $(document).ready(function() {
                     $("#name").val('');
                     $("#materials").val('');
                     $("#desc").val('');
+                    $("#h").val('');
+                    $("#w").val('');
+                    $("#d").val('');
+                    $("#dot").val('');
+                    $("#layer").val('');
                     $.ajax({
                         url: '/api/printers',
                         type: 'GET',

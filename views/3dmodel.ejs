@@ -3,6 +3,7 @@
     <head>
         <title>Скачать 3d модель бесплатно</title>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/3dmodel.css" rel="stylesheet">
     </head>
     <body style="margin-top:50px">
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -44,6 +45,7 @@
           </div>
         </div>
         <%- include nav.ejs %>
+        <div id="submenu"></div>
         <div class="container">
             <h1 class="text-center">Скачать 3d модель</h1>
             <hr>
@@ -95,13 +97,16 @@
                 
                 <% for(var i = 0, lgth = thng.files.length; i < lgth; i++) {%>
                     <div class="row well">
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <img src="<%= thng.files[i].pic %>" class="img-responsive">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <%= thng.files[i].name %>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-1">
+                            <input type="number" class="form-control qty" value="1">
+                        </div>
+                        <div class="col-md-3">
                             Материал:
                             <select class="printmaterial" data-vol="<%= thng.files[i].vol %>">
                                 <% for(var j = 0, jlgth = mtrls.length; j < jlgth; j++) {%>
@@ -113,11 +118,15 @@
                         </div>
                         <div class="col-md-2 printprice">
                         </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary add">Добавить к заказу</button>
+                        </div>
                     </div>
                 <% } %>
         </div>
         <script src="/js/jquery-1.10.2.min.js"></script>
         <script src="/js/flat-ui.min.js"></script>
+        <script src="/js/cart.js"></script>
         <script src="/js/3dmodel.js"></script>
     </body>
 </html>

@@ -3,12 +3,68 @@
     <head>
         <title>Услуги 3d печати на принтере <%= prntr.name %> </title>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/calc.css" rel="stylesheet">
     </head>
     <body style="margin-top:50px">
+        <div class="modal fade" id="cost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Расчет стоимости печати</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div id="props">
+									
+								</div>
+							</div>
+							<!--<div class="col-md-6" id="vis">
+							</div>-->
+						</div>
+						<div id="order"></div>
+						<div id="total">
+		  				
+						</div>
+					</div>
+					<div class="modal-footer">
+					</div>
+				</div>
+			</div>
+		</div>
         <%- include nav.ejs %>
         <div class="container">
-            <h1 class="text-center"><%= prntr.name %></h1>
+            <h1 class="text-center">Заказать 3d печать на 3d принтере <%= prntr.name %></h1>
             <hr>
+            
+            <section id="calc" class="container-fluid content-section text-center">
+		        <div class="row">
+			        <div class="col-md-8">
+		                <h2 class="text-center">Загрузить файл</h2>
+		                <div id="dropzone">
+		                    <h2>Перетащите в это окно модель для расчета, или нажмите кнопку:</h2>
+		                    <button class="btn btn-lg btn-primary" id="addfiles">Загрузить файл</button>
+		                </div>
+		            </div>
+			        <div class="col-md-4">
+	                    <h2 class="text-center">Ограничения</h2>
+	                    <hr>
+	                    <p>Максимальный размер файла: 50мб</p>
+	                    <hr>
+	                    <p>Формат файла: .stl</p>
+	                    <hr>
+	                    Гарантия сохранности вашей модели. Предварительный расчет происходит локально, без отправки на сервер.
+	               </div>
+	            </div>
+	        </section>
+	        
+	        <hr>
+	        
+	        <h2 class="text-center">Спецификация 3d принтера <span id="name"><%= prntr.name %></span></h2>
+	        
+	        <hr>
+	        
             <div class="row">
                     <div class="col-xs-12" id="slider">
                         <!-- Top part of the slider -->
@@ -28,79 +84,70 @@
                                     <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
                                         <span class="glyphicon glyphicon-chevron-right"></span>                                       
                                     </a>                                
-                                    </div>
+                                </div>
+                                <div id="slide-content" class="text-center">
+                                <hr>
+                                <div class="row hidden-xs" id="slider-thumbs">
+                                        <% for(var i = 0, lgth = prntr.thumbs.length; i < lgth; i++) {%>
+                                            <div class="col-sm-2">
+                                                <a class="thumbnail" id="carousel-selector-<%= i %>"><img src="<%= prntr.thumbs[i] %>"></a>
+                                            </div>
+                                        <% } %>
+                                </div>
+                            </div>
                             </div>
 
-                            <div class="col-sm-6" id="carousel-text"></div>
-
-                            <div id="slide-content" class="text-center">
-                                <div class="row hidden-xs" id="slider-thumbs">
-                                    <!-- Bottom switcher of slider -->
-                                    <ul class="hide-bullets" style="list-style: none">
-                                        <% for(var i = 0, lgth = prntr.thumbs.length; i < lgth; i++) {%>
-                                            <li class="col-sm-1">
-                                                <a class="thumbnail" id="carousel-selector-<%= i %>"><img src="<%= prntr.thumbs[i] %>"></a>
-                                            </li>
-                                        <% } %>
-                                    </ul>
-                                </div>
+                            <div class="col-sm-6">
+                                <table class="table">
+                                    <tr>
+                                        <td>Минимальная детализация</td>
+                                        <td><%= prntr.dot %> мм</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Минимальная высота слоя</td>
+                                        <td><%= prntr.layer %> мм</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Максимальные габариты изделия</td>
+                                        <td><%= prntr.vol.h %>x<%= prntr.vol.w %>x<%= prntr.vol.d %> мм</td>
+                                    </tr>
+                                </table>
                             </div>
                             
                         </div>
                     </div>
                 </div><!--/Slider-->
                 
-                            <div class="row">
+                <div class="row">
                     <h2 class="text-center">Материалы, доступные для печати на принтере <%= prntr.name %></h2>
                     <% for(var j = 0, lgth = mtrls.length; j < lgth; j++) {%>
-                    <div class="col-xs-12" id="slider">
-                        <!-- Top part of the slider -->
                         <div class="row">
-                            <div class="col-sm-6" id="carousel-bounding-box">
-                                <div class="carousel slide" id="myCarousel">
-                                    <!-- Carousel items -->
-                                    <div class="carousel-inner">
-                                        <% for(var i = 0, lgth = mtrls[j].pics.length; i < lgth; i++) {%>
-                                            <div class="<% if (i === 0) {%> active <%}%> item" data-slide-number="<%= i %>">
-                                            <img src="<%= mtrls[j].pics[i] %>" style="width:100%"></div>
-                                        <% } %>
-                                    </div><!-- Carousel nav -->
-                                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                                        <span class="glyphicon glyphicon-chevron-left"></span>                                       
-                                    </a>
-                                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                                        <span class="glyphicon glyphicon-chevron-right"></span>                                       
-                                    </a>                                
-                                    </div>
+                            <h3 class="text-center"><%= mtrls[j].name %></h3>
+                            <div class="col-sm-6">
+                                <img src="<%= mtrls[j].pics[0] %>" style="width:100%">
                             </div>
 
-                            <div class="col-sm-6" id="carousel-text"></div>
-
-                            <div id="slide-content" class="text-center">
-                                <div class="row hidden-xs" id="slider-thumbs">
-                                    <!-- Bottom switcher of slider -->
-                                    <ul class="hide-bullets" style="list-style: none">
-                                        <% for(var i = 0, lgth = mtrls[j].thumbs.length; i < lgth; i++) {%>
-                                            <li class="col-sm-1">
-                                                <a class="thumbnail" id="carousel-selector-<%= i %>"><img src="<%= mtrls[j].thumbs[i] %>"></a>
-                                            </li>
+                            <div class="col-sm-6">
+                                <h3 class="text-center">Характеристики материала</h3>
+                                <table class="table">
+                                        <% for(var i = 0, lgth = mtrls[j].props.length; i < lgth; i++) {%>
+                                            <tr>
+                                                <td><%= mtrls[j].props[i].name %></td>
+                                                <td><%= mtrls[j].props[i].val %> <%= mtrls[j].props[i].units %></td>
+                                            </tr>
                                         <% } %>
-                                    </ul>
-                                </div>
+                                </table>
                             </div>
-                            
                         </div>
-                    </div>
                     <% } %>
                 </div><!--/Slider-->
                 
                 <hr>
                 
-                <h2 class="text-center">Заказать печать</h2>
-                
         </div>
         <script src="/js/jquery-1.10.2.min.js"></script>
         <script src="/js/flat-ui.min.js"></script>
-        <script src="/js/3dmodel.js"></script>
+        <script src="/js/dropzone.js"></script>
+        <script src="/js/3dprinter.js"></script>
     </body>
 </html>

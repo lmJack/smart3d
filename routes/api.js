@@ -5,6 +5,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var Material = require('../models/Material.js');
 var Printer = require('../models/Printer.js');
 var Model3d = require('../models/3dmodel.js');
+var Order = require('../models/Order.js');
 var Busboy = require('busboy');
 var fs = require("fs");
 var lwip = require('lwip');
@@ -208,6 +209,41 @@ router.get('/materials', function(req, res, next) {
     });
 });
 
+router.get('/materials/:name', function(req, res, next) {
+    Material.findOne({name: req.params.name}, function(err, material) {
+      if (!err) {
+        res.send( JSON.stringify(material));
+      } else {
+        console.log('error:');
+        console.log(err);
+      }
+    });
+});
+
+router.get('/materials/printer/:name', function(req, res, next) {
+    Printer.findOne({name: req.params.name}, function(err, printer) {
+      if (!err && printer) {
+        var mtrls = [],
+        send = function(mtrls) {
+          res.send(JSON.stringify(mtrls));
+        };
+        printer.materials.forEach(function(el, ind) {
+          Material.findOne({name: el}, function(err, mtrl) {
+            if (!err && mtrl) {
+              mtrls.push(mtrl);
+              if (ind === (printer.materials.length - 1)) {
+                send(mtrls);
+              }
+            }
+          });
+        });
+      } else {
+        console.log('error:');
+        console.log(err);
+      }
+    });
+});
+
 router.delete('/materials/:id', function(req, res) {
   Material.findById(req.params.id, function(err, material) {
       if (!err&&material) {
@@ -228,7 +264,8 @@ router.post('/materials', function(req, res) {
     mtrl = new Material({
       name: body.name,
       price: body.price,
-      desc: body.desc
+      desc: body.desc,
+      props: JSON.parse(body.props)
     });
     mtrl.save(function(err, mt) {
       err ? console.log(err) : (function() {console.log("saved: " + mt._id); res.send(mt._id.toString())})();
@@ -367,7 +404,10 @@ router.post('/printers', function(req, res) {
     prntr = new Printer({
       name: body.name,
       materials: JSON.parse(body.materials),
-      desc: body.desc
+      desc: body.desc,
+      layer: body.layer,
+      dot: body.dot,
+      vol: JSON.parse(body.vol)
     });
     console.log('materials: ' + body.materials);
     prntr.save(function(err, mt) {
@@ -604,6 +644,62 @@ router.get('/models/:id', function(req, res) {
         console.log('thing not found');
         thng ? console.log('error: ' + err) : thingiParse(req.params.id);
         res.end();
+      }
+  });
+});
+
+router.post('/order', function(req, res) {
+  var order = new Order({
+    material: req.body.material,
+    name: req.body.name,
+    contact: req.body.contact,
+    comment: req.body.comment,
+    qty: req.body.qty
+  });
+  order.save(function(err, rdr) {
+    err ? console.log(err) : (function() {console.log("saved: " + rdr._id); res.send(rdr._id.toString())})();
+  });
+});
+
+router.post('/order/:id/savefile', function(req, res) {
+  Order.findById(req.params.id, function(err, order) {
+    if (!err && order) {
+      var busboy = new Busboy({ headers: req.headers });
+      busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        if (!fs.existsSync("./orders/")) {
+          fs.mkdirSync("./orders/");
+        }
+        if (!fs.existsSync("./orders/" + order._id)) {
+          fs.mkdirSync("./orders/" + order._id);
+        }
+        var saveTo = "./orders/" + order._id  + "/" + filename;
+        file.pipe(fs.createWriteStream(saveTo));
+        file.on('end', function() {
+          console.log("saved: " + filename);
+          order.file = filename;
+          order.save();
+        });
+      });
+      busboy.on('finish', function() {
+        console.log("busboy finish");
+        res.writeHead(200, { 'Connection': 'close' });
+        res.end("That's all folks!");
+      });
+      req.pipe(busboy);  
+    }
+  });
+});
+
+router.delete('/order/:id', function(req, res) {
+  Order.findById(req.params.id, function(err, order) {
+      if (!err&&order) {
+        if (fs.existsSync("./orders/" + order._id)) {
+          rimraf("./orders/" + order._id, function(err) {
+            if (err) console.log(err);
+          });        
+        }
+        order.remove();
+        res.sendStatus(200);
       }
   });
 });

@@ -30,6 +30,19 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/materials', function(req, res, next) {
+    Material.find({}, function(err, mtrls) {
+        if (err) {
+            console.log(err);
+            res.end();
+        } else {
+            if (mtrls) {
+                res.render('materials', {mtrls: mtrls}); 
+            }
+        }
+    });
+});
+
 router.get('/materials/:name', function(req, res, next) {
     Material.findOne({name: req.params.name}, function(err, mtrl) {
         if (err) {
@@ -50,7 +63,20 @@ router.get('/materials/:name', function(req, res, next) {
     });
 });
 
-router.get('/printers/:name', function(req, res, next) {
+router.get('/3dprinters', function(req, res, next) {
+    Printer.find({}, function(err, prntrs) {
+        if (err) {
+            console.log(err);
+            res.end();
+        } else {
+            if (prntrs) {
+                res.render('3dprinters', {prntrs: prntrs}); 
+            }
+        }
+    });
+});
+
+router.get('/3dprinters/:name', function(req, res, next) {
     Printer.findOne({name: req.params.name}, function(err, prntr) {
         if (err) {
             console.log(err);
@@ -70,7 +96,7 @@ router.get('/printers/:name', function(req, res, next) {
     });
 });
 
-router.get('/models/:id', function(req, res, next) {
+router.get('/3dmodels/:id', function(req, res, next) {
     Model3d.findOne({id: req.params.id}, function(err, thng) {
         if (!err && thng) {
             Material.find({}, function(err, mtrls) {
@@ -80,7 +106,7 @@ router.get('/models/:id', function(req, res, next) {
     });
 });
 
-router.get('/models', function(req, res, next) {
+router.get('/3dmodels', function(req, res, next) {
     Model3d.find({}, function(err, thngs) {
         if (!err && thngs) {
             res.render('3dmodels', {thngs: thngs});

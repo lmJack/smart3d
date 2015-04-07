@@ -4,6 +4,7 @@ var passport = require("passport");
 var LocalStrategy = require('passport-local').Strategy;
 var Material = require('../models/Material.js');
 var Printer = require('../models/Printer.js');
+var Order = require('../models/Order.js');
 var Busboy = require('busboy');
 var fs = require("fs");
 var lwip = require('lwip');
@@ -38,6 +39,17 @@ router.get('/materials', function(req, res, next) {
     Material.find({}, function(err, materials) {
       if (!err) {
         req.isAuthenticated() ? res.render('admin/materials', { materials: materials }) : res.redirect('/admin/login');
+      } else {
+        console.log('error:');
+        console.log(err);
+      }
+    });
+});
+
+router.get('/orders', function(req, res, next) {
+    Order.find({}, function(err, orders) {
+      if (!err) {
+        req.isAuthenticated() ? res.render('admin/orders', { orders: orders }) : res.redirect('/admin/login');
       } else {
         console.log('error:');
         console.log(err);

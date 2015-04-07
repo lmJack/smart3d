@@ -44,8 +44,35 @@
                         <select name="materials" id="materials" class="form-control" multiple="multiple">
                         </select>
                     </div>
-                    <label for="desc">Описание</label>
-                    <textarea class="form-control" name="desc" id="desc"></textarea>
+                    <div class="form-group">
+                        <label for="desc">Описание</label>
+                        <textarea class="form-control" name="desc" id="desc"></textarea>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="dot">Детализация (мм)</label>
+                        <input class="form-control" type="text" name="dot" id="dot">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="layer">Высота слоя (мм)</label>
+                        <input class="form-control" type="text" name="layer" id="layer">
+                    </div>
+                    </div>
+                    <div class="row thumbnail">
+                        <p class="text-center">Размер рабочей области (мм)</p>
+                        <div class="col-md-4 form-group">
+                            <label for="layer">Высота</label>
+                            <input class="form-control" type="text" name="h" id="h">
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="layer">Ширина</label>
+                            <input class="form-control" type="text" name="w" id="w">
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="layer">Длина</label>
+                            <input class="form-control" type="text" name="d" id="d">
+                        </div>
+                    </div>
                     <br>
                     <button class="btn btn-sm btn-danger" id="save">Сохранить</button>
                 </div>

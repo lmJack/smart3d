@@ -15,14 +15,28 @@ $(document).ready(function() {
         });
     });
     
+    $('#addprop').click(function(e) {
+        var html = '<hr><div class="row prop text-center"><div class="col-md-4 propname">' + $("#propname").val() + '</div><div class="col-md-4 propval">' + $("#propval").val() + '</div><div class="col-md-4 propunits">' + $("#propunits").val() + '</div></div>'
+        $('#props').append(html);
+        $("#propname").val('');
+        $("#propval").val('');
+        $("#propunits").val('');
+    });
+    
     $('#save').click(function() {
+        var props = [];
+        $('.prop').each(function(ind, val) {
+            var prop = {name: $(val).find('.propname').text(), val: $(val).find('.propval').text(), units: $(val).find('.propunits').text() };
+            props.push(prop);
+        });
         $.ajax({
             url: '/api/materials',
             type: 'POST',
             data: {
                 name: $("#name").val(),
                 price: $("#price").val(),
-                desc: $("#desc").val()
+                desc: $("#desc").val(),
+                props: JSON.stringify(props)
             },
             success: function(resp) {
                 dz.options.url = "/api/materials/addPic/" + resp;

@@ -7,7 +7,12 @@ var materialSchema = mongoose.Schema({
     thumbs: [String],
     price: Number,
     desc: String,
-    views: Number
+    views: Number,
+    props: [{
+        name: String,
+        value: Number,
+        units: String
+    }]
 });
     
 var Material = mongoose.model('Material', materialSchema);
