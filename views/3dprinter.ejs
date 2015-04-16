@@ -122,9 +122,9 @@
                     <h2 class="text-center">Материалы, доступные для печати на принтере <%= prntr.name %></h2>
                     <% for(var j = 0, lgth = mtrls.length; j < lgth; j++) {%>
                         <div class="row">
-                            <h3 class="text-center"><%= if (mtrls[j].name) { mtrls[j].name } %></h3>
+                            <h3 class="text-center"><%= mtrls[j].name %></h3>
                             <div class="col-sm-6">
-                                <img src="<%= if (mtrls[j].name) { mtrls[j].name } mtrls[j].pics[0] %>" style="width:100%">
+                                <img src="<%= mtrls[j].pics[0] %>" style="width:100%">
                             </div>
 
                             <div class="col-sm-6">
@@ -132,7 +132,7 @@
                                 <table class="table">
                                         <% for(var i = 0, lgth = mtrls[j].props.length; i < lgth; i++) {%>
                                             <tr>
-                                                <td><%= if (mtrls[j].props[i].name) {  mtrls[j].props[i].name } %></td>
+                                                <td><%= mtrls[j].props[i].name %></td>
                                                 <td><%= mtrls[j].props[i].val %> <%= mtrls[j].props[i].units %></td>
                                             </tr>
                                         <% } %>

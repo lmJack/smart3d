@@ -480,11 +480,16 @@ router.post('/printers/addPic/:id', function(req, res) {
                             console.log('image minified');
                             fs.unlink(path.join("./public/img/", printer.name, '/tmp/', filename), function(err) {
                               if (!err) {
-                                console.log('old image deleted');
-                                fs.rmdir(path.join("./public/img/", printer.name, '/tmp/'), function(err) {
-                                  if (err) {
-                                    console.log('rmdir error: ' + err);
-                                  }
+                                fs.readdir(path.join("./public/img/", printer.name, '/tmp/'), function(err, files) {
+                                  if ((!err)&&(!files.length)) {
+                                    fs.rmdir(path.join("./public/img/", printer.name, '/tmp/'), function(err) {
+                                      if (err) {
+                                        console.log('rmdir error: ' + err);
+                                      } else {
+                                        console.log('old image deleted');
+                                      }
+                                });  
+                                  }  
                                 });
                               } else {
                                 console.log('fs unlink error: ' + err);
