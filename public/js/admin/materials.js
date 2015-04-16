@@ -26,7 +26,7 @@ $(document).ready(function() {
     $('#save').click(function() {
         var props = [];
         $('.prop').each(function(ind, val) {
-            var prop = {name: $(val).find('.propname').text(), value: $(val).find('.propval').text(), units: $(val).find('.propunits').text() };
+            var prop = {name: $(val).find('.propname').text(), value: parseFloat($(val).find('.propval').text()), units: $(val).find('.propunits').text() };
             props.push(prop);
         });
         $.ajax({
