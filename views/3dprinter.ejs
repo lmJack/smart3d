@@ -121,7 +121,10 @@
                 <div class="row">
                     <h2 class="text-center">Материалы, доступные для печати на принтере <%= prntr.name %></h2>
                     <%= mtrls %>
-                    
+                    <% for(var j = 0, lgth = mtrls.length; j < lgth; j++) {%>
+                        <%= j %>
+                        <%= mtrls[j] %>
+                    <% } %>
                 </div><!--/Slider-->
                 
                 <hr>
