@@ -44,12 +44,12 @@ $(document).ready(function() {
                 name: $("#name").val(),
                 materials: JSON.stringify($("#materials").val()),
                 desc: $("#desc").val(),
-                dot: $("#dot").val(),
-                layer: $("#layer").val(),
+                dot: parseFloat($("#dot").val().replace(',','.')),
+                layer: parseFloat($("#layer").val().replace(',','.')),
                 vol: JSON.stringify({
-                    h: $("#h").val(),
-                    w: $("#w").val(),
-                    d: $("#d").val()
+                    h: parseFloat($("#h").val().replace(',','.')),
+                    w: parseFloat($("#w").val().replace(',','.')),
+                    d: parseFloat($("#d").val().replace(',','.'))
                 })
             },
             success: function(resp) {
