@@ -130,12 +130,12 @@
                             <div class="col-sm-6">
                                 <h3 class="text-center">Характеристики материала</h3>
                                 <table class="table">
-                                    <% for(var i = 0, lgth = el.props.length; i < lgth; i++) {%>
+                                    <% el.props.forEach(function(prop, index) { %>
                                             <tr>
-                                                <td><%= el.props[i].name %></td>
-                                                <td><%= el.props[i].val %> <%= el.props[i].units %></td>
+                                                <td><%= prop.name %></td>
+                                                <td><%= prop.val %> <%= prop.units %></td>
                                             </tr>
-                                        <% } %>
+                                        <% }); %>
                                 </table>
                             </div>
                         </div>
