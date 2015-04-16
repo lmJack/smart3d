@@ -481,7 +481,11 @@ router.post('/printers/addPic/:id', function(req, res) {
                             fs.unlink(path.join("./public/img/", printer.name, '/tmp/', filename), function(err) {
                               if (!err) {
                                 console.log('old image deleted');
-                                fs.rmdir(path.join("./public/img/", printer.name, '/tmp/'));
+                                fs.rmdir(path.join("./public/img/", printer.name, '/tmp/'), function(err) {
+                                  if (err) {
+                                    console.log('rmdir error: ' + err);
+                                  }
+                                });
                               } else {
                                 console.log('fs unlink error: ' + err);
                               }

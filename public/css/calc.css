@@ -9,6 +9,7 @@ body {
     -o-background-size: cover;
     padding-bottom:100px;
     color: white;
+    min-height: 100vh;
 }
 
 #dropzone {

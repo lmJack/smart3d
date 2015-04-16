@@ -74,33 +74,6 @@ var Order = {
 			contact: $('#contact').val()
 		};
 		this.dz.processQueue();
-		/*var file = this.file, positions = this.positions, headers = {
-        "Accept": "application/json",
-        "Cache-Control": "no-cache",
-        "X-Requested-With": "XMLHttpRequest"
-      	},
-		data = new FormData(), xhr = new XMLHttpRequest();
-		data.append('file', file);
-		data.append('positions', JSON.stringify(positions));
-		data.append('name', $('#name').val());
-		data.append('contact', $('#contact').val());
-		xhr.open("POST","/order",true);
-		for (var headerName in headers) {
-        	var headerValue = headers[headerName];
-        	xhr.setRequestHeader(headerName, headerValue);
-      	}
-		xhr.send(data);
-		/*$.ajax({
-			url: '/order',
-			type: 'POST',
-			cache: false,
-        	contentType: false,
-        	processData: false,
-			data: data,
-			success: function(resp) {
-				$('#order').append('<span class="label label-success">Заказ отправлен</span>');
-			}
-		});*/
 	}
 };
 
@@ -192,7 +165,7 @@ var Calc = {
         }
 
 	    var volumeTotal = Math.abs(totalVol)/1000;
-	    return { volume: volumeTotal }
+	    return { volume: volumeTotal };
     },
     
     parseSTLBinary: function(buf) {
@@ -243,7 +216,7 @@ var Calc = {
     }
 };
 
-var Viewer = {
+/* var Viewer = {
     
     camera: new THREE.PerspectiveCamera( 10, window.innerWidth / window.innerHeight, 5, 50000 ),
     
@@ -349,7 +322,8 @@ var Viewer = {
 	},
 	
 	reader: new FileReader()
-};
+};*/
+
 
 $(document).ready(function() {
     var dz = new Dropzone('#dropzone',{ 
@@ -369,4 +343,16 @@ $(document).ready(function() {
         Order.dz = dz;
         Calc.readFile(file);
     });
+    
+    $(function() {
+        $('.page-scroll').bind('click', function(event) {
+            var $anchor = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $($anchor.attr('href')).offset().top
+            }, 1500, 'easeInOutExpo');
+            event.preventDefault();
+        });
+    });
+    
+    $('#calc .row').css('margin-top', ($('#calc').height() - $('#calc .row').height())/2 );
 });
