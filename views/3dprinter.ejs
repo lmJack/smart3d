@@ -120,26 +120,26 @@
                 
                 <div class="row">
                     <h2 class="text-center">Материалы, доступные для печати на принтере <%= prntr.name %></h2>
-                    <%= mtrls %>
-                    <% for(var j = 0, lgth = mtrls.length; j < lgth; j++) {%>
+                    <% mtrls.forEach(function(el, index) { %>
                         <div class="row">
+                            <h3 class="text-center"><%= el.name %></h3>
                             <div class="col-sm-6">
-                                <img src="<%= mtrls[j].pics[0] %>" style="width:100%">
+                                <img src="<%= el.pics[0] %>" style="width:100%">
                             </div>
 
                             <div class="col-sm-6">
                                 <h3 class="text-center">Характеристики материала</h3>
                                 <table class="table">
-                                        <% for(var i = 0, lgth = mtrls[j].props.length; i < lgth; i++) {%>
+                                    <% for(var i = 0, lgth = el.props.length; i < lgth; i++) {%>
                                             <tr>
-                                                <td><%= mtrls[j].props[i].name %></td>
-                                                <td><%= mtrls[j].props[i].val %> <%= mtrls[j].props[i].units %></td>
+                                                <td><%= el.props[i].name %></td>
+                                                <td><%= el.props[i].val %> <%= el.props[i].units %></td>
                                             </tr>
                                         <% } %>
                                 </table>
                             </div>
                         </div>
-                    <% } %>
+                    <% }); %>
                 </div><!--/Slider-->
                 
                 <hr>
