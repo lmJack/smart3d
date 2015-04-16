@@ -88,7 +88,8 @@ router.get('/3dprinters/:name', function(req, res, next) {
                         console.log(err);
                         res.end();
                     } else {
-                            res.render('3dprinter', {mtrls: mtrls, prntr: prntr});
+                        console.log(mtrls);
+                        res.render('3dprinter', {mtrls: mtrls, prntr: prntr});
                     }
                 });
             }

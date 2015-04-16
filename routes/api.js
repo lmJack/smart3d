@@ -480,13 +480,14 @@ router.post('/printers/addPic/:id', function(req, res) {
                             console.log('image minified');
                             fs.unlink(path.join("./public/img/", printer.name, '/tmp/', filename), function(err) {
                               if (!err) {
+                                console.log('old image deleted');
                                 fs.readdir(path.join("./public/img/", printer.name, '/tmp/'), function(err, files) {
-                                  if ((!err)&&(!files.length)) {
+                                  if ((!err)&&(files.length === 0)) {
                                     fs.rmdir(path.join("./public/img/", printer.name, '/tmp/'), function(err) {
                                       if (err) {
                                         console.log('rmdir error: ' + err);
                                       } else {
-                                        console.log('old image deleted');
+                                        console.log('tmp folder deleted');
                                       }
                                 });  
                                   }  
@@ -586,7 +587,17 @@ router.post('/printers/addPrint/:id', function(req, res) {
                             fs.unlink(path.join("./public/img/", printer.name, '/prints/tmp/', filename), function(err) {
                               if (!err) {
                                 console.log('old image deleted');
-                                fs.rmdir(path.join("./public/img/", printer.name, '/prints/tmp/'));
+                                fs.readdir(path.join("./public/img/", printer.name, '/prints/tmp/'), function(err, files) {
+                                  if ((!err)&&(files.length === 0)) {
+                                    fs.rmdir(path.join("./public/img/", printer.name, '/prints/tmp/'), function(err) {
+                                      if (err) {
+                                        console.log('rmdir error: ' + err);
+                                      } else {
+                                        console.log('tmp folder deleted');
+                                      }
+                                });  
+                                  }  
+                                });
                               } else {
                                 console.log('fs unlink error: ' + err);
                               }
